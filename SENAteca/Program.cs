@@ -28,7 +28,66 @@ class Program
             Console.WriteLine("5. Guardar / Cargar datos");
             Console.WriteLine("6. Salir");
             Console.WriteLine("------------------------------------");
+            
+            int opcion = ReadOption("Seleccione una opción: ");
 
+            switch (opcion)
+            {
+                case 1:
+                    ShowBooksMenu();
+                    break;
+                case 2:
+                    ShowUsersMenu();
+                    break;
+                case 3:
+                    ShowLoansMenu();
+                    break;
+                case 4:
+                    ShowSearchReportsMenu();
+                    break;
+                case 5:
+                    ShowPersistenceMenu();
+                    break;
+                case 6:
+                    Console.WriteLine("Saliendo de SENAteca...");
+                    salir = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
         }
     }
 }
+
+    // ==================== SUBMENÚS (por ahora solo "stubs") ====================
+    static void ShowBooksMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de Libros.");
+        Pause();
+    }
+
+    static void ShowUsersMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de Usuarios.");
+        Pause();
+    }
+
+    static void ShowLoansMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de Préstamos.");
+        Pause();
+    }
+
+    static void ShowSearchReportsMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de Búsquedas y reportes.");
+        Pause();
+    }
+
+    static void ShowPersistenceMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de Guardar / Cargar datos.");
+        Pause();
+    }

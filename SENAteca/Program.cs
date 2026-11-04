@@ -685,9 +685,65 @@ class Program
         Pause();
     }
 
+    // ==================== MÓDULO GUARDAR / CARGAR DATOS ====================
     static void ShowPersistenceMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Guardar / Cargar datos.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("        GUARDAR / CARGAR DATOS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Guardar datos");
+            Console.WriteLine("2. Cargar datos");
+            Console.WriteLine("3. Reiniciar datos");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    SaveData();
+                    break;
+                case 2:
+                    LoadData();
+                    break;
+                case 3:
+                    ResetData();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void SaveData()
+    {
+        Console.WriteLine("--- Guardar datos ---");
+        Console.WriteLine("Aquí se guardarán los datos de libros, usuarios y préstamos.");
+        Pause();
+    }
+
+    static void LoadData()
+    {
+        Console.WriteLine("--- Cargar datos ---");
+        Console.WriteLine("Aquí se cargarán los datos de libros, usuarios y préstamos guardados.");
+        Pause();
+    }
+
+    // Stub temporal (se completa en el siguiente commit)
+    static void ResetData()
+    {
+        Console.WriteLine("Aquí estará la opción de reiniciar datos.");
         Pause();
     }
 

@@ -466,7 +466,62 @@ class Program
     // Stubs temporales (se completan en los siguientes commits)
     static void ListLoansMenu()
     {
-        Console.WriteLine("Aquí estará el menú de listar préstamos.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("          LISTAR PRÉSTAMOS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Todos");
+            Console.WriteLine("2. Activos");
+            Console.WriteLine("3. Cerrados");
+            Console.WriteLine("0. Volver al menú de préstamos");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    ListLoansAll();
+                    break;
+                case 2:
+                    ListLoansActive();
+                    break;
+                case 3:
+                    ListLoansClosed();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void ListLoansAll()
+    {
+        Console.WriteLine("--- Listar todos los préstamos ---");
+        Console.WriteLine("Aquí se mostrarán todos los préstamos registrados.");
+        Pause();
+    }
+
+    static void ListLoansActive()
+    {
+        Console.WriteLine("--- Listar préstamos activos ---");
+        Console.WriteLine("Aquí se mostrarán los préstamos que aún no han sido devueltos.");
+        Pause();
+    }
+
+    static void ListLoansClosed()
+    {
+        Console.WriteLine("--- Listar préstamos cerrados ---");
+        Console.WriteLine("Aquí se mostrarán los préstamos que ya fueron devueltos.");
         Pause();
     }
 

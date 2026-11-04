@@ -137,10 +137,65 @@ class Program
     // Stubs temporales (se completan en los siguientes commits)
     static void ListBooksMenu()
     {
-        Console.WriteLine("Aquí estará el menú de listar libros.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("            LISTAR LIBROS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Listar todos");
+            Console.WriteLine("2. Listar disponibles");
+            Console.WriteLine("3. Listar prestados");
+            Console.WriteLine("0. Volver al menú de libros");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    ListBooksAll();
+                    break;
+                case 2:
+                    ListBooksAvailable();
+                    break;
+                case 3:
+                    ListBooksBorrowed();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void ListBooksAll()
+    {
+        Console.WriteLine("--- Listar todos los libros ---");
+        Console.WriteLine("Aquí se mostrarán todos los libros registrados.");
         Pause();
     }
 
+    static void ListBooksAvailable()
+    {
+        Console.WriteLine("--- Listar libros disponibles ---");
+        Console.WriteLine("Aquí se mostrarán los libros que están disponibles.");
+        Pause();
+    }
+
+    static void ListBooksBorrowed()
+    {
+        Console.WriteLine("--- Listar libros prestados ---");
+        Console.WriteLine("Aquí se mostrarán los libros que están prestados.");
+        Pause();
+    }
+    
     static void UpdateBookMenu()
     {
         Console.WriteLine("Aquí estará el menú de actualizar libros.");

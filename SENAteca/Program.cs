@@ -196,9 +196,64 @@ class Program
         Pause();
     }
     
-    static void UpdateBookMenu()
+      static void UpdateBookMenu()
     {
-        Console.WriteLine("Aquí estará el menú de actualizar libros.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("           ACTUALIZAR LIBRO");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Editar título");
+            Console.WriteLine("2. Editar autor");
+            Console.WriteLine("3. Editar año / categoría");
+            Console.WriteLine("0. Volver al menú de libros");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    EditBookTitle();
+                    break;
+                case 2:
+                    EditBookAuthor();
+                    break;
+                case 3:
+                    EditBookYearCategory();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void EditBookTitle()
+    {
+        Console.WriteLine("--- Editar título ---");
+        Console.WriteLine("Aquí se editará el título del libro seleccionado.");
+        Pause();
+    }
+
+    static void EditBookAuthor()
+    {
+        Console.WriteLine("--- Editar autor ---");
+        Console.WriteLine("Aquí se editará el autor del libro seleccionado.");
+        Pause();
+    }
+
+    static void EditBookYearCategory()
+    {
+        Console.WriteLine("--- Editar año / categoría ---");
+        Console.WriteLine("Aquí se editará el año y la categoría del libro seleccionado.");
         Pause();
     }
 

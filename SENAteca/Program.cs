@@ -741,9 +741,26 @@ class Program
     }
 
     // Stub temporal (se completa en el siguiente commit)
+    // Pregunta S/N y devuelve true si el usuario confirma
+    static bool ConfirmResetData()
+    {
+        Console.WriteLine("Esta acción eliminará todos los datos guardados.");
+        return ReadYesNo("¿Está seguro de reiniciar los datos? (S/N): ");
+    }
+
     static void ResetData()
     {
-        Console.WriteLine("Aquí estará la opción de reiniciar datos.");
+        Console.WriteLine("--- Reiniciar datos ---");
+
+        if (ConfirmResetData())
+        {
+            Console.WriteLine("Aquí se reiniciarán todos los datos del sistema.");
+        }
+        else
+        {
+            Console.WriteLine("Operación cancelada. No se reiniciaron los datos.");
+        }
+
         Pause();
     }
 
@@ -781,6 +798,27 @@ class Program
         }
 
         return texto;
+    }
+
+        // Pregunta S/N y repite hasta que escriban S o N. Devuelve true si es S
+    static bool ReadYesNo(string mensaje)
+    {
+        while (true)
+        {
+            Console.Write(mensaje);
+            string respuesta = (Console.ReadLine() ?? "").Trim().ToUpper();
+
+            if (respuesta == "S")
+            {
+                return true;
+            }
+            else if (respuesta == "N")
+            {
+                return false;
+            }
+
+            Console.WriteLine("Respuesta no válida. Escriba S o N.");
+        }
     }
 
     // Detiene la pantalla hasta que el usuario presione Enter

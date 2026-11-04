@@ -389,11 +389,12 @@ class Program
         Console.WriteLine("Aquí se cambiará el estado del usuario (activo o inactivo).");
         Pause();
     }
-    
+
 
     static void DeleteUser()
     {
-        Console.WriteLine("Aquí estará la opción de eliminar usuario.");
+        Console.WriteLine("--- Eliminar usuario ---");
+        Console.WriteLine("Validar no permitir si tiene préstamos activos.");
         Pause();
     }
 

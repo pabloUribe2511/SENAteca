@@ -257,11 +257,147 @@ class Program
         Pause();
     }
 
+       // ==================== MÓDULO USUARIOS ====================
     static void ShowUsersMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Usuarios.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("          MENÚ DE USUARIOS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Registrar usuario");
+            Console.WriteLine("2. Listar usuarios");
+            Console.WriteLine("3. Ver detalle de un usuario");
+            Console.WriteLine("4. Actualizar usuario");
+            Console.WriteLine("5. Eliminar usuario");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    RegisterUser();
+                    break;
+                case 2:
+                    ListUsers();
+                    break;
+                case 3:
+                    ViewUserDetail();
+                    break;
+                case 4:
+                    UpdateUserMenu();
+                    break;
+                case 5:
+                    DeleteUser();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void RegisterUser()
+    {
+        Console.WriteLine("--- Registrar usuario ---");
+        Console.WriteLine("Aquí se registrará un nuevo usuario (nombre, documento, contacto).");
         Pause();
     }
+
+    static void ListUsers()
+    {
+        Console.WriteLine("--- Listar usuarios ---");
+        Console.WriteLine("Aquí se mostrarán todos los usuarios registrados.");
+        Pause();
+    }
+
+    static void ViewUserDetail()
+    {
+        Console.WriteLine("--- Ver detalle de usuario ---");
+        string id = ReadText("Ingrese el ID o documento del usuario: ");
+        Console.WriteLine("Aquí se mostrará el detalle del usuario con ID/documento: " + id);
+        Pause();
+    }
+
+    // Stubs temporales (se completan en los siguientes commits)
+       static void UpdateUserMenu()
+    {
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("          ACTUALIZAR USUARIO");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Editar nombre");
+            Console.WriteLine("2. Editar contacto");
+            Console.WriteLine("3. Activar / desactivar");
+            Console.WriteLine("0. Volver al menú de usuarios");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    EditUserName();
+                    break;
+                case 2:
+                    EditUserContact();
+                    break;
+                case 3:
+                    ToggleUserActiveStatus();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void EditUserName()
+    {
+        Console.WriteLine("--- Editar nombre ---");
+        Console.WriteLine("Aquí se editará el nombre del usuario seleccionado.");
+        Pause();
+    }
+
+    static void EditUserContact()
+    {
+        Console.WriteLine("--- Editar contacto ---");
+        Console.WriteLine("Aquí se editará el contacto del usuario seleccionado.");
+        Pause();
+    }
+
+    static void ToggleUserActiveStatus()
+    {
+        Console.WriteLine("--- Activar / desactivar usuario ---");
+        Console.WriteLine("Aquí se cambiará el estado del usuario (activo o inactivo).");
+        Pause();
+    }
+
+
+    static void DeleteUser()
+    {
+        Console.WriteLine("--- Eliminar usuario ---");
+        Console.WriteLine("Validar no permitir si tiene préstamos activos.");
+        Pause();
+    }
+
 
     static void ShowLoansMenu()
     {

@@ -61,9 +61,199 @@ class Program
     }
 
     // ==================== SUBMENÚS (por ahora solo "stubs") ====================
+
+
+    // ==================== MÓDULO LIBROS ====================
     static void ShowBooksMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Libros.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("            MENÚ DE LIBROS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Registrar libro");
+            Console.WriteLine("2. Listar libros");
+            Console.WriteLine("3. Ver detalle de un libro");
+            Console.WriteLine("4. Actualizar libro");
+            Console.WriteLine("5. Eliminar libro");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    RegisterBook();
+                    break;
+                case 2:
+                    ListBooksMenu();
+                    break;
+                case 3:
+                    ViewBookDetail();
+                    break;
+                case 4:
+                    UpdateBookMenu();
+                    break;
+                case 5:
+                    DeleteBook();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void RegisterBook()
+    {
+        Console.WriteLine("--- Registrar libro ---");
+        Console.WriteLine("Aquí se registrará un nuevo libro (título, autor, año, categoría).");
+        Pause();
+    }
+
+    static void ViewBookDetail()
+    {
+        Console.WriteLine("--- Ver detalle de libro ---");
+        string id = ReadText("Ingrese el ID o ISBN del libro: ");
+        Console.WriteLine("Aquí se mostrará el detalle del libro con ID/ISBN: " + id);
+        Pause();
+    }
+
+    static void DeleteBook()
+    {
+        Console.WriteLine("--- Eliminar libro ---");
+        Console.WriteLine("Validar no permitir si está prestado.");
+        Pause();
+    }
+
+    // Stubs temporales (se completan en los siguientes commits)
+    static void ListBooksMenu()
+    {
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("            LISTAR LIBROS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Listar todos");
+            Console.WriteLine("2. Listar disponibles");
+            Console.WriteLine("3. Listar prestados");
+            Console.WriteLine("0. Volver al menú de libros");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    ListBooksAll();
+                    break;
+                case 2:
+                    ListBooksAvailable();
+                    break;
+                case 3:
+                    ListBooksBorrowed();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void ListBooksAll()
+    {
+        Console.WriteLine("--- Listar todos los libros ---");
+        Console.WriteLine("Aquí se mostrarán todos los libros registrados.");
+        Pause();
+    }
+
+    static void ListBooksAvailable()
+    {
+        Console.WriteLine("--- Listar libros disponibles ---");
+        Console.WriteLine("Aquí se mostrarán los libros que están disponibles.");
+        Pause();
+    }
+
+    static void ListBooksBorrowed()
+    {
+        Console.WriteLine("--- Listar libros prestados ---");
+        Console.WriteLine("Aquí se mostrarán los libros que están prestados.");
+        Pause();
+    }
+    
+      static void UpdateBookMenu()
+    {
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("           ACTUALIZAR LIBRO");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Editar título");
+            Console.WriteLine("2. Editar autor");
+            Console.WriteLine("3. Editar año / categoría");
+            Console.WriteLine("0. Volver al menú de libros");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    EditBookTitle();
+                    break;
+                case 2:
+                    EditBookAuthor();
+                    break;
+                case 3:
+                    EditBookYearCategory();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void EditBookTitle()
+    {
+        Console.WriteLine("--- Editar título ---");
+        Console.WriteLine("Aquí se editará el título del libro seleccionado.");
+        Pause();
+    }
+
+    static void EditBookAuthor()
+    {
+        Console.WriteLine("--- Editar autor ---");
+        Console.WriteLine("Aquí se editará el autor del libro seleccionado.");
+        Pause();
+    }
+
+    static void EditBookYearCategory()
+    {
+        Console.WriteLine("--- Editar año / categoría ---");
+        Console.WriteLine("Aquí se editará el año y la categoría del libro seleccionado.");
         Pause();
     }
 
@@ -106,6 +296,25 @@ class Program
         }
 
         return -1;
+    }
+
+        // Pide un texto y repite la pregunta si el usuario no escribe nada
+    static string ReadText(string mensaje)
+    {
+        string texto = "";
+
+        while (texto.Trim() == "")
+        {
+            Console.Write(mensaje);
+            texto = Console.ReadLine() ?? "";
+
+            if (texto.Trim() == "")
+            {
+                Console.WriteLine("No puede estar vacío. Intente de nuevo.");
+            }
+        }
+
+        return texto;
     }
 
     // Detiene la pantalla hasta que el usuario presione Enter

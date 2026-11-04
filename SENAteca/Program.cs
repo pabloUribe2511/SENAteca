@@ -685,9 +685,82 @@ class Program
         Pause();
     }
 
+    // ==================== MÓDULO GUARDAR / CARGAR DATOS ====================
     static void ShowPersistenceMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Guardar / Cargar datos.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("        GUARDAR / CARGAR DATOS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Guardar datos");
+            Console.WriteLine("2. Cargar datos");
+            Console.WriteLine("3. Reiniciar datos");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    SaveData();
+                    break;
+                case 2:
+                    LoadData();
+                    break;
+                case 3:
+                    ResetData();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void SaveData()
+    {
+        Console.WriteLine("--- Guardar datos ---");
+        Console.WriteLine("Aquí se guardarán los datos de libros, usuarios y préstamos.");
+        Pause();
+    }
+
+    static void LoadData()
+    {
+        Console.WriteLine("--- Cargar datos ---");
+        Console.WriteLine("Aquí se cargarán los datos de libros, usuarios y préstamos guardados.");
+        Pause();
+    }
+
+    // Stub temporal (se completa en el siguiente commit)
+    // Pregunta S/N y devuelve true si el usuario confirma
+    static bool ConfirmResetData()
+    {
+        Console.WriteLine("Esta acción eliminará todos los datos guardados.");
+        return ReadYesNo("¿Está seguro de reiniciar los datos? (S/N): ");
+    }
+
+    static void ResetData()
+    {
+        Console.WriteLine("--- Reiniciar datos ---");
+
+        if (ConfirmResetData())
+        {
+            Console.WriteLine("Aquí se reiniciarán todos los datos del sistema.");
+        }
+        else
+        {
+            Console.WriteLine("Operación cancelada. No se reiniciaron los datos.");
+        }
+
         Pause();
     }
 
@@ -725,6 +798,27 @@ class Program
         }
 
         return texto;
+    }
+
+        // Pregunta S/N y repite hasta que escriban S o N. Devuelve true si es S
+    static bool ReadYesNo(string mensaje)
+    {
+        while (true)
+        {
+            Console.Write(mensaje);
+            string respuesta = (Console.ReadLine() ?? "").Trim().ToUpper();
+
+            if (respuesta == "S")
+            {
+                return true;
+            }
+            else if (respuesta == "N")
+            {
+                return false;
+            }
+
+            Console.WriteLine("Respuesta no válida. Escriba S o N.");
+        }
     }
 
     // Detiene la pantalla hasta que el usuario presione Enter

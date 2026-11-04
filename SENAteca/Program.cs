@@ -329,11 +329,67 @@ class Program
     }
 
     // Stubs temporales (se completan en los siguientes commits)
-    static void UpdateUserMenu()
+       static void UpdateUserMenu()
     {
-        Console.WriteLine("Aquí estará el menú de actualizar usuarios.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("          ACTUALIZAR USUARIO");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Editar nombre");
+            Console.WriteLine("2. Editar contacto");
+            Console.WriteLine("3. Activar / desactivar");
+            Console.WriteLine("0. Volver al menú de usuarios");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    EditUserName();
+                    break;
+                case 2:
+                    EditUserContact();
+                    break;
+                case 3:
+                    ToggleUserActiveStatus();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void EditUserName()
+    {
+        Console.WriteLine("--- Editar nombre ---");
+        Console.WriteLine("Aquí se editará el nombre del usuario seleccionado.");
         Pause();
     }
+
+    static void EditUserContact()
+    {
+        Console.WriteLine("--- Editar contacto ---");
+        Console.WriteLine("Aquí se editará el contacto del usuario seleccionado.");
+        Pause();
+    }
+
+    static void ToggleUserActiveStatus()
+    {
+        Console.WriteLine("--- Activar / desactivar usuario ---");
+        Console.WriteLine("Aquí se cambiará el estado del usuario (activo o inactivo).");
+        Pause();
+    }
+    
 
     static void DeleteUser()
     {
@@ -341,7 +397,7 @@ class Program
         Pause();
     }
 
-    
+
     static void ShowLoansMenu()
     {
         Console.WriteLine("Aquí estará el menú de Préstamos.");

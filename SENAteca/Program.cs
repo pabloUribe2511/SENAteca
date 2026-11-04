@@ -551,11 +551,72 @@ class Program
         Console.WriteLine("- Pedir confirmación antes de eliminar.");
         Pause();
     }
+      // ==================== MÓDULO BÚSQUEDAS Y REPORTES ====================
     static void ShowSearchReportsMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Búsquedas y reportes.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("       BÚSQUEDAS Y REPORTES");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Buscar libro");
+            Console.WriteLine("2. Buscar usuario");
+            Console.WriteLine("3. Reportes");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    SearchBook();
+                    break;
+                case 2:
+                    SearchUser();
+                    break;
+                case 3:
+                    ReportsMenu();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void SearchBook()
+    {
+        Console.WriteLine("--- Buscar libro ---");
+        Console.WriteLine("Se podrá buscar por: título, autor, ID o categoría.");
+        string texto = ReadText("Ingrese el texto a buscar: ");
+        Console.WriteLine("Aquí se mostrarán los libros que coincidan con: " + texto);
         Pause();
     }
+
+    static void SearchUser()
+    {
+        Console.WriteLine("--- Buscar usuario ---");
+        Console.WriteLine("Se podrá buscar por: nombre o ID.");
+        string texto = ReadText("Ingrese el texto a buscar: ");
+        Console.WriteLine("Aquí se mostrarán los usuarios que coincidan con: " + texto);
+        Pause();
+    }
+
+    // Stub temporal (se completa en el siguiente commit)
+    static void ReportsMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de reportes.");
+        Pause();
+    }
+    
 
     static void ShowPersistenceMenu()
     {

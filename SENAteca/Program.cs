@@ -527,22 +527,30 @@ class Program
 
     static void ViewLoanDetail()
     {
-        Console.WriteLine("Aquí estará el detalle de un préstamo.");
+        Console.WriteLine("--- Ver detalle de préstamo ---");
+        string id = ReadText("Ingrese el ID del préstamo: ");
+        Console.WriteLine("Aquí se mostrará el detalle del préstamo con ID: " + id);
         Pause();
     }
 
     static void RegisterReturn()
     {
-        Console.WriteLine("Aquí estará el registro de devolución.");
+        Console.WriteLine("--- Registrar devolución ---");
+        string id = ReadText("Ingrese el ID del préstamo: ");
+        Console.WriteLine("Aquí se marcará el préstamo " + id + " como devuelto.");
+        Console.WriteLine("Además, el libro volverá a estar disponible.");
         Pause();
     }
 
     static void DeleteLoan()
     {
-        Console.WriteLine("Aquí estará la opción de eliminar préstamo.");
+        Console.WriteLine("--- Eliminar préstamo ---");
+        Console.WriteLine("Reglas sugeridas:");
+        Console.WriteLine("- No permitir eliminar un préstamo que siga activo.");
+        Console.WriteLine("- Solo se pueden eliminar préstamos cerrados (ya devueltos).");
+        Console.WriteLine("- Pedir confirmación antes de eliminar.");
         Pause();
     }
-
     static void ShowSearchReportsMenu()
     {
         Console.WriteLine("Aquí estará el menú de Búsquedas y reportes.");

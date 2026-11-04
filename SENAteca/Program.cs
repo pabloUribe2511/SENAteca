@@ -399,9 +399,92 @@ class Program
     }
 
 
+    // ==================== MÓDULO PRÉSTAMOS ====================
     static void ShowLoansMenu()
     {
-        Console.WriteLine("Aquí estará el menú de Préstamos.");
+        bool volver = false;
+
+        while (!volver)
+        {
+            Console.Clear();
+            Console.WriteLine("====================================");
+            Console.WriteLine("         MENÚ DE PRÉSTAMOS");
+            Console.WriteLine("====================================");
+            Console.WriteLine("1. Crear préstamo");
+            Console.WriteLine("2. Listar préstamos");
+            Console.WriteLine("3. Ver detalle de un préstamo");
+            Console.WriteLine("4. Registrar devolución");
+            Console.WriteLine("5. Eliminar préstamo");
+            Console.WriteLine("0. Volver al menú principal");
+            Console.WriteLine("------------------------------------");
+
+            int opcion = ReadOption("Seleccione una opción: ");
+
+            switch (opcion)
+            {
+                case 1:
+                    CreateLoan();
+                    break;
+                case 2:
+                    ListLoansMenu();
+                    break;
+                case 3:
+                    ViewLoanDetail();
+                    break;
+                case 4:
+                    RegisterReturn();
+                    break;
+                case 5:
+                    DeleteLoan();
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida. Intente de nuevo.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    static void CreateLoan()
+    {
+        Console.WriteLine("--- Crear préstamo ---");
+        Console.WriteLine("Aquí se creará un nuevo préstamo.");
+        Console.WriteLine();
+        Console.WriteLine("Validaciones sugeridas:");
+        Console.WriteLine("- El libro debe existir.");
+        Console.WriteLine("- El libro debe estar disponible.");
+        Console.WriteLine("- El usuario debe existir.");
+        Console.WriteLine("- El usuario debe estar activo.");
+        Console.WriteLine("- El usuario no debe tener préstamos vencidos.");
+        Console.WriteLine("- La fecha de devolución debe ser posterior a la fecha de préstamo.");
+        Pause();
+    }
+
+    // Stubs temporales (se completan en los siguientes commits)
+    static void ListLoansMenu()
+    {
+        Console.WriteLine("Aquí estará el menú de listar préstamos.");
+        Pause();
+    }
+
+    static void ViewLoanDetail()
+    {
+        Console.WriteLine("Aquí estará el detalle de un préstamo.");
+        Pause();
+    }
+
+    static void RegisterReturn()
+    {
+        Console.WriteLine("Aquí estará el registro de devolución.");
+        Pause();
+    }
+
+    static void DeleteLoan()
+    {
+        Console.WriteLine("Aquí estará la opción de eliminar préstamo.");
         Pause();
     }
 

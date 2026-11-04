@@ -28,7 +28,7 @@ class Program
             Console.WriteLine("5. Guardar / Cargar datos");
             Console.WriteLine("6. Salir");
             Console.WriteLine("------------------------------------");
-            
+
             int opcion = ReadOption("Seleccione una opción: ");
 
             switch (opcion)
@@ -59,7 +59,6 @@ class Program
             }
         }
     }
-}
 
     // ==================== SUBMENÚS (por ahora solo "stubs") ====================
     static void ShowBooksMenu()
@@ -91,3 +90,29 @@ class Program
         Console.WriteLine("Aquí estará el menú de Guardar / Cargar datos.");
         Pause();
     }
+
+    // ==================== UTILIDADES ====================
+
+    // Lee una opción numérica. Si lo escrito no es un número, devuelve -1
+    static int ReadOption(string mensaje)
+    {
+        Console.Write(mensaje);
+        string entrada = Console.ReadLine();
+
+        int opcion;
+        if (int.TryParse(entrada, out opcion))
+        {
+            return opcion;
+        }
+
+        return -1;
+    }
+
+    // Detiene la pantalla hasta que el usuario presione Enter
+    static void Pause()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Presione Enter para continuar...");
+        Console.ReadLine();
+    }
+}

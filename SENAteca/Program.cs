@@ -49,7 +49,7 @@ class Program
                     ShowPersistenceMenu();
                     break;
                 case 6:
-                    Console.WriteLine("Saliendo de SENAteca...");
+                    ConfirmExitAndSave();
                     salir = true;
                     break;
                 default:
@@ -724,6 +724,24 @@ class Program
                     break;
             }
         }
+    }
+
+        // ==================== SALIR ====================
+    // Pregunta si desea guardar antes de salir (S/N)
+    static void ConfirmExitAndSave()
+    {
+        Console.WriteLine("--- Salir ---");
+
+        if (ReadYesNo("¿Guardar antes de salir? (S/N): "))
+        {
+            SaveData();
+        }
+        else
+        {
+            Console.WriteLine("Los datos no se guardaron.");
+        }
+
+        Console.WriteLine("Saliendo de SENAteca... ¡Hasta pronto!");
     }
 
     static void SaveData()

@@ -119,11 +119,29 @@ class Program
         Pause();
     }
 
-    static void ViewBookDetail()
+     static void ViewBookDetail()
     {
         Console.WriteLine("--- Ver detalle de libro ---");
-        string id = ReadText("Ingrese el ID o ISBN del libro: ");
-        Console.WriteLine("Aquí se mostrará el detalle del libro con ID/ISBN: " + id);
+        string id = ReadText("Ingrese el ID del libro (1 o 2): ");
+
+        if (id == "1")
+        {
+            Libro libro = CreateSampleBook1();
+            Console.WriteLine(libro.DetalleCompleto());
+            Console.WriteLine("¿Disponible?: " + libro.Disponible);
+            Console.WriteLine("ToString(): " + libro.ToString());
+        }
+        else if (id == "2")
+        {
+            Libro libro = CreateSampleBook2();
+            Console.WriteLine(libro.DetalleCompleto());
+            Console.WriteLine("¿Disponible?: " + libro.Disponible);
+            Console.WriteLine("ToString(): " + libro.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un libro con el ID: " + id);
+        }
         Pause();
     }
 
@@ -175,24 +193,50 @@ class Program
         }
     }
 
-    static void ListBooksAll()
+  static void ListBooksAll()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar todos los libros ---");
-        Console.WriteLine("Aquí se mostrarán todos los libros registrados.");
+        Console.WriteLine(libro1.ResumenCorto());
+        Console.WriteLine(libro2.ResumenCorto());
         Pause();
     }
 
     static void ListBooksAvailable()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar libros disponibles ---");
-        Console.WriteLine("Aquí se mostrarán los libros que están disponibles.");
+
+        if (libro1.Disponible)
+        {
+            Console.WriteLine(libro1.ResumenCorto());
+        }
+        if (libro2.Disponible)
+        {
+            Console.WriteLine(libro2.ResumenCorto());
+        }
         Pause();
     }
 
     static void ListBooksBorrowed()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar libros prestados ---");
-        Console.WriteLine("Aquí se mostrarán los libros que están prestados.");
+
+        if (!libro1.Disponible)
+        {
+            Console.WriteLine(libro1.ResumenCorto());
+        }
+        if (!libro2.Disponible)
+        {
+            Console.WriteLine(libro2.ResumenCorto());
+        }
         Pause();
     }
     
@@ -813,7 +857,7 @@ class Program
         // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
         return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
     }
-    
+
     // ==================== UTILIDADES ====================
 
     // Lee una opción numérica. Si lo escrito no es un número, devuelve -1

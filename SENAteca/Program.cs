@@ -572,30 +572,66 @@ class Program
 
     static void ListLoansAll()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar todos los préstamos ---");
-        Console.WriteLine("Aquí se mostrarán todos los préstamos registrados.");
+        Console.WriteLine(prestamo.ResumenCorto());
         Pause();
     }
 
     static void ListLoansActive()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar préstamos activos ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos que aún no han sido devueltos.");
+
+        if (prestamo.Estado == EstadoPrestamo.Activo)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay préstamos activos.");
+        }
         Pause();
     }
 
-    static void ListLoansClosed()
+     static void ListLoansClosed()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar préstamos cerrados ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos que ya fueron devueltos.");
+
+        if (prestamo.Estado == EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay préstamos cerrados.");
+        }
         Pause();
     }
 
     static void ViewLoanDetail()
     {
         Console.WriteLine("--- Ver detalle de préstamo ---");
-        string id = ReadText("Ingrese el ID del préstamo: ");
-        Console.WriteLine("Aquí se mostrará el detalle del préstamo con ID: " + id);
+        string id = ReadText("Ingrese el ID del préstamo (1): ");
+
+        if (id == "1")
+        {
+            Prestamo prestamo = CreateSampleLoan();
+            Console.WriteLine(prestamo.DetalleCompleto());
+            Console.WriteLine();
+            Console.WriteLine("Estado: " + prestamo.Estado);
+            Console.WriteLine("¿Está vencido?: " + prestamo.EstaVencido());
+            Console.WriteLine("Días transcurridos: " + prestamo.DiasTranscurridos());
+            Console.WriteLine("ToString(): " + prestamo.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
         Pause();
     }
 

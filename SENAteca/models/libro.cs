@@ -24,4 +24,27 @@ public class Libro
         Categoria = categoria;
         Disponible = true;
     }
+
+        // Una sola línea con lo más importante
+    public string ResumenCorto()
+    {
+        return Id + " | " + Titulo + " | " + Autor;
+    }
+
+    // Todos los datos del libro, uno por línea
+    public string DetalleCompleto()
+    {
+        string estado = "Prestado";
+        if (Disponible)
+        {
+            estado = "Disponible";
+        }
+
+        return "ID: " + Id + "\n" +
+               "Título: " + Titulo + "\n" +
+               "Autor: " + Autor + "\n" +
+               "Año: " + Anio + "\n" +
+               "Categoría: " + Categoria + "\n" +
+               "Estado: " + estado;
+    }
 }

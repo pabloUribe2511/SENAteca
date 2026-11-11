@@ -31,6 +31,12 @@ public class Libro
         return Id + " | " + Titulo + " | " + Autor;
     }
 
+    // Sobrescribe el ToString() que ya trae todo objeto en C#
+    public override string ToString()
+    {
+        return ResumenCorto();
+    }
+    
     // Todos los datos del libro, uno por línea
     public string DetalleCompleto()
     {

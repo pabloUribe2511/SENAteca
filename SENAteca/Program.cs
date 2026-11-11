@@ -119,11 +119,29 @@ class Program
         Pause();
     }
 
-    static void ViewBookDetail()
+     static void ViewBookDetail()
     {
         Console.WriteLine("--- Ver detalle de libro ---");
-        string id = ReadText("Ingrese el ID o ISBN del libro: ");
-        Console.WriteLine("Aquí se mostrará el detalle del libro con ID/ISBN: " + id);
+        string id = ReadText("Ingrese el ID del libro (1 o 2): ");
+
+        if (id == "1")
+        {
+            Libro libro = CreateSampleBook1();
+            Console.WriteLine(libro.DetalleCompleto());
+            Console.WriteLine("¿Disponible?: " + libro.Disponible);
+            Console.WriteLine("ToString(): " + libro.ToString());
+        }
+        else if (id == "2")
+        {
+            Libro libro = CreateSampleBook2();
+            Console.WriteLine(libro.DetalleCompleto());
+            Console.WriteLine("¿Disponible?: " + libro.Disponible);
+            Console.WriteLine("ToString(): " + libro.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un libro con el ID: " + id);
+        }
         Pause();
     }
 
@@ -175,24 +193,50 @@ class Program
         }
     }
 
-    static void ListBooksAll()
+  static void ListBooksAll()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar todos los libros ---");
-        Console.WriteLine("Aquí se mostrarán todos los libros registrados.");
+        Console.WriteLine(libro1.ResumenCorto());
+        Console.WriteLine(libro2.ResumenCorto());
         Pause();
     }
 
     static void ListBooksAvailable()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar libros disponibles ---");
-        Console.WriteLine("Aquí se mostrarán los libros que están disponibles.");
+
+        if (libro1.Disponible)
+        {
+            Console.WriteLine(libro1.ResumenCorto());
+        }
+        if (libro2.Disponible)
+        {
+            Console.WriteLine(libro2.ResumenCorto());
+        }
         Pause();
     }
 
     static void ListBooksBorrowed()
     {
+        Libro libro1 = CreateSampleBook1();
+        Libro libro2 = CreateSampleBook2();
+
         Console.WriteLine("--- Listar libros prestados ---");
-        Console.WriteLine("Aquí se mostrarán los libros que están prestados.");
+
+        if (!libro1.Disponible)
+        {
+            Console.WriteLine(libro1.ResumenCorto());
+        }
+        if (!libro2.Disponible)
+        {
+            Console.WriteLine(libro2.ResumenCorto());
+        }
         Pause();
     }
     
@@ -315,16 +359,38 @@ class Program
 
     static void ListUsers()
     {
+        Usuario usuario1 = CreateSampleUser1();
+        Usuario usuario2 = CreateSampleUser2();
+
         Console.WriteLine("--- Listar usuarios ---");
-        Console.WriteLine("Aquí se mostrarán todos los usuarios registrados.");
+        Console.WriteLine(usuario1.ResumenCorto());
+        Console.WriteLine(usuario2.ResumenCorto());
         Pause();
     }
 
     static void ViewUserDetail()
     {
         Console.WriteLine("--- Ver detalle de usuario ---");
-        string id = ReadText("Ingrese el ID o documento del usuario: ");
-        Console.WriteLine("Aquí se mostrará el detalle del usuario con ID/documento: " + id);
+        string id = ReadText("Ingrese el ID del usuario (1 o 2): ");
+
+        if (id == "1")
+        {
+            Usuario usuario = CreateSampleUser1();
+            Console.WriteLine(usuario.DetalleCompleto());
+            Console.WriteLine("¿Activo?: " + usuario.Activo);
+            Console.WriteLine("ToString(): " + usuario.ToString());
+        }
+        else if (id == "2")
+        {
+            Usuario usuario = CreateSampleUser2();
+            Console.WriteLine(usuario.DetalleCompleto());
+            Console.WriteLine("¿Activo?: " + usuario.Activo);
+            Console.WriteLine("ToString(): " + usuario.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un usuario con el ID: " + id);
+        }
         Pause();
     }
 
@@ -506,30 +572,66 @@ class Program
 
     static void ListLoansAll()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar todos los préstamos ---");
-        Console.WriteLine("Aquí se mostrarán todos los préstamos registrados.");
+        Console.WriteLine(prestamo.ResumenCorto());
         Pause();
     }
 
     static void ListLoansActive()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar préstamos activos ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos que aún no han sido devueltos.");
+
+        if (prestamo.Estado == EstadoPrestamo.Activo)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay préstamos activos.");
+        }
         Pause();
     }
 
-    static void ListLoansClosed()
+     static void ListLoansClosed()
     {
+        Prestamo prestamo = CreateSampleLoan();
+
         Console.WriteLine("--- Listar préstamos cerrados ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos que ya fueron devueltos.");
+
+        if (prestamo.Estado == EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay préstamos cerrados.");
+        }
         Pause();
     }
 
     static void ViewLoanDetail()
     {
         Console.WriteLine("--- Ver detalle de préstamo ---");
-        string id = ReadText("Ingrese el ID del préstamo: ");
-        Console.WriteLine("Aquí se mostrará el detalle del préstamo con ID: " + id);
+        string id = ReadText("Ingrese el ID del préstamo (1): ");
+
+        if (id == "1")
+        {
+            Prestamo prestamo = CreateSampleLoan();
+            Console.WriteLine(prestamo.DetalleCompleto());
+            Console.WriteLine();
+            Console.WriteLine("Estado: " + prestamo.Estado);
+            Console.WriteLine("¿Está vencido?: " + prestamo.EstaVencido());
+            Console.WriteLine("Días transcurridos: " + prestamo.DiasTranscurridos());
+            Console.WriteLine("ToString(): " + prestamo.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
         Pause();
     }
 
@@ -780,6 +882,38 @@ class Program
         }
 
         Pause();
+    }
+    // ==================== OBJETOS DE PRUEBA ====================
+    // Cada función devuelve un objeto de prueba (2 libros, 2 usuarios, 1 préstamo)
+    static Libro CreateSampleBook1()
+    {
+        return new Libro(1, "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela");
+    }
+
+    static Libro CreateSampleBook2()
+    {
+        Libro libro = new Libro(2, "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula");
+        libro.Disponible = false;   // este libro está prestado
+        return libro;
+    }
+
+    static Usuario CreateSampleUser1()
+    {
+        return new Usuario(1, "Juan Pablo Uribe", "1001234567", "juan@correo.com");
+    }
+
+    static Usuario CreateSampleUser2()
+    {
+        Usuario usuario = new Usuario(2, "María Gómez", "1007654321", "maria@correo.com");
+        usuario.Activo = false;   // este usuario está inactivo
+        return usuario;
+    }
+
+    static Prestamo CreateSampleLoan()
+    {
+        DateTime hoy = DateTime.Now;
+        // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
+        return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
     }
 
     // ==================== UTILIDADES ====================

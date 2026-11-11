@@ -27,4 +27,31 @@ public class Prestamo
         FechaDevolucion = null;
         Estado = EstadoPrestamo.Activo;
     }
+        // Un préstamo está vencido si no se ha devuelto y ya pasó la fecha límite
+    public bool EstaVencido()
+    {
+        if (FechaDevolucion.HasValue)
+        {
+            return false;   // ya fue devuelto
+        }
+
+        return DateTime.Now > FechaLimite;
+    }
+
+    // Días desde el préstamo hasta hoy (o hasta la devolución si ya se devolvió)
+    public int DiasTranscurridos()
+    {
+        DateTime fin;
+
+        if (FechaDevolucion.HasValue)
+        {
+            fin = FechaDevolucion.Value;
+        }
+        else
+        {
+            fin = DateTime.Now;
+        }
+
+        return (fin - FechaPrestamo).Days;
+    }
 }

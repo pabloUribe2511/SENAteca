@@ -22,4 +22,28 @@ public class Usuario
         Contacto = contacto;
         Activo = true;
     }
+        public string ResumenCorto()
+    {
+        return Id + " | " + Nombre + " | " + Documento;
+    }
+
+    public string DetalleCompleto()
+    {
+        string estado = "Inactivo";
+        if (Activo)
+        {
+            estado = "Activo";
+        }
+
+        return "ID: " + Id + "\n" +
+               "Nombre: " + Nombre + "\n" +
+               "Documento: " + Documento + "\n" +
+               "Contacto: " + Contacto + "\n" +
+               "Estado: " + estado;
+    }
+
+    public override string ToString()
+    {
+        return ResumenCorto();
+    }
 }

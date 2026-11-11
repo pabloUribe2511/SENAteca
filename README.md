@@ -17,6 +17,15 @@ Todas las opciones imprimen mensajes descriptivos. No usa POO, colecciones ni pe
     cd SENAteca
     dotnet run
 
+## Modelo de dominio (POO)
+
+Carpeta `Models/`:
+
+- `Libro.cs`
+- `Usuario.cs`
+- `Prestamo.cs`
+- `EstadoPrestamo.cs` (enum: Activo, Devuelto, Vencido)
+
 ## Git Flow
 
 - `main`: versión estable.
@@ -30,6 +39,14 @@ Todas las opciones imprimen mensajes descriptivos. No usa POO, colecciones ni pe
   - feature/search-reports-menu
   - feature/persistence-menu
   - feature/exit-flow
+
+  Ramas nuevas:
+
+- feature/models-libro
+- feature/models-usuario
+- feature/models-enum-estado-prestamo
+- feature/models-prestamo
+- feature/models-testing-objetos
 
 ## Autor
 

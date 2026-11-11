@@ -54,4 +54,30 @@ public class Prestamo
 
         return (fin - FechaPrestamo).Days;
     }
+        public string ResumenCorto()
+    {
+        return Id + " | Libro " + IdLibro + " | Usuario " + IdUsuario + " | " + Estado;
+    }
+
+    public string DetalleCompleto()
+    {
+        string devolucion = "Pendiente";
+        if (FechaDevolucion.HasValue)
+        {
+            devolucion = FechaDevolucion.Value.ToString("dd/MM/yyyy");
+        }
+
+        return "ID: " + Id + "\n" +
+               "ID Libro: " + IdLibro + "\n" +
+               "ID Usuario: " + IdUsuario + "\n" +
+               "Fecha de préstamo: " + FechaPrestamo.ToString("dd/MM/yyyy") + "\n" +
+               "Fecha límite: " + FechaLimite.ToString("dd/MM/yyyy") + "\n" +
+               "Fecha de devolución: " + devolucion + "\n" +
+               "Estado: " + Estado;
+    }
+
+    public override string ToString()
+    {
+        return ResumenCorto();
+    }
 }

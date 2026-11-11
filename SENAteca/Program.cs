@@ -359,16 +359,38 @@ class Program
 
     static void ListUsers()
     {
+        Usuario usuario1 = CreateSampleUser1();
+        Usuario usuario2 = CreateSampleUser2();
+
         Console.WriteLine("--- Listar usuarios ---");
-        Console.WriteLine("Aquí se mostrarán todos los usuarios registrados.");
+        Console.WriteLine(usuario1.ResumenCorto());
+        Console.WriteLine(usuario2.ResumenCorto());
         Pause();
     }
 
     static void ViewUserDetail()
     {
         Console.WriteLine("--- Ver detalle de usuario ---");
-        string id = ReadText("Ingrese el ID o documento del usuario: ");
-        Console.WriteLine("Aquí se mostrará el detalle del usuario con ID/documento: " + id);
+        string id = ReadText("Ingrese el ID del usuario (1 o 2): ");
+
+        if (id == "1")
+        {
+            Usuario usuario = CreateSampleUser1();
+            Console.WriteLine(usuario.DetalleCompleto());
+            Console.WriteLine("¿Activo?: " + usuario.Activo);
+            Console.WriteLine("ToString(): " + usuario.ToString());
+        }
+        else if (id == "2")
+        {
+            Usuario usuario = CreateSampleUser2();
+            Console.WriteLine(usuario.DetalleCompleto());
+            Console.WriteLine("¿Activo?: " + usuario.Activo);
+            Console.WriteLine("ToString(): " + usuario.ToString());
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un usuario con el ID: " + id);
+        }
         Pause();
     }
 

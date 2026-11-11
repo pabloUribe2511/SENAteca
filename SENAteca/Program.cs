@@ -781,7 +781,39 @@ class Program
 
         Pause();
     }
+    // ==================== OBJETOS DE PRUEBA ====================
+    // Cada función devuelve un objeto de prueba (2 libros, 2 usuarios, 1 préstamo)
+    static Libro CreateSampleBook1()
+    {
+        return new Libro(1, "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela");
+    }
 
+    static Libro CreateSampleBook2()
+    {
+        Libro libro = new Libro(2, "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula");
+        libro.Disponible = false;   // este libro está prestado
+        return libro;
+    }
+
+    static Usuario CreateSampleUser1()
+    {
+        return new Usuario(1, "Juan Pablo Uribe", "1001234567", "juan@correo.com");
+    }
+
+    static Usuario CreateSampleUser2()
+    {
+        Usuario usuario = new Usuario(2, "María Gómez", "1007654321", "maria@correo.com");
+        usuario.Activo = false;   // este usuario está inactivo
+        return usuario;
+    }
+
+    static Prestamo CreateSampleLoan()
+    {
+        DateTime hoy = DateTime.Now;
+        // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
+        return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
+    }
+    
     // ==================== UTILIDADES ====================
 
     // Lee una opción numérica. Si lo escrito no es un número, devuelve -1

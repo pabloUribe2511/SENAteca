@@ -8,7 +8,53 @@ public class LibroService
     {
         libros.Add(libro);
     }
+    
+    // Busca un libro por su Id. Devuelve null si no existe (por eso el "?")
+    public Libro? BuscarPorId(int id)
+    {
+        foreach (Libro libro in libros)
+        {
+            if (libro.Id == id)
+            {
+                return libro;
+            }
+        }
+        return null;
+    }
 
+    // Elimina un libro de la lista
+    public void EliminarLibro(Libro libro)
+    {
+        libros.Remove(libro);
+    }
+
+    // Devuelve solo los libros disponibles
+    public List<Libro> ObtenerDisponibles()
+    {
+        List<Libro> resultado = new List<Libro>();
+        foreach (Libro libro in libros)
+        {
+            if (libro.Disponible)
+            {
+                resultado.Add(libro);
+            }
+        }
+        return resultado;
+    }
+
+    // Devuelve solo los libros prestados
+    public List<Libro> ObtenerPrestados()
+    {
+        List<Libro> resultado = new List<Libro>();
+        foreach (Libro libro in libros)
+        {
+            if (!libro.Disponible)
+            {
+                resultado.Add(libro);
+            }
+        }
+        return resultado;
+    }
     // Devuelve todos los libros
     public List<Libro> ObtenerTodos()
     {

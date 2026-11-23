@@ -14,4 +14,22 @@ public class UsuarioService
     {
         return usuarios;
     }
+        // Busca un usuario por su Id. Devuelve null si no existe
+    public Usuario? BuscarPorId(int id)
+    {
+        foreach (Usuario usuario in usuarios)
+        {
+            if (usuario.Id == id)
+            {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    // Elimina un usuario de la lista
+    public void EliminarUsuario(Usuario usuario)
+    {
+        usuarios.Remove(usuario);
+    }
 }

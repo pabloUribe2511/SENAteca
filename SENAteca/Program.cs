@@ -687,9 +687,28 @@ class Program
     static void SearchBook()
     {
         Console.WriteLine("--- Buscar libro ---");
-        Console.WriteLine("Se podrá buscar por: título, autor, ID o categoría.");
-        string texto = ReadText("Ingrese el texto a buscar: ");
-        Console.WriteLine("Aquí se mostrarán los libros que coincidan con: " + texto);
+        string texto = ReadText("Ingrese ISBN, título o autor a buscar: ");
+
+        Console.WriteLine();
+        Console.WriteLine("Resultado por ISBN:");
+        Libro? porIsbn = libroService.BuscarPorIsbn(texto);
+        if (porIsbn != null)
+        {
+            Console.WriteLine(porIsbn.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay libros para mostrar.");
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Resultados por título:");
+        PrintBooks(libroService.BuscarPorTitulo(texto));
+
+        Console.WriteLine();
+        Console.WriteLine("Resultados por autor:");
+        PrintBooks(libroService.BuscarPorAutor(texto));
+
         Pause();
     }
 
@@ -831,10 +850,17 @@ class Program
     static void ShowSortedLists()
     {
         Console.WriteLine("--- Listados ordenados ---");
-        Console.WriteLine("Aquí se mostrarán las listas ordenadas.");
+
+        Console.WriteLine();
+        Console.WriteLine("Libros ordenados por título:");
+        PrintBooks(libroService.OrdenarPorTitulo());
+
+        Console.WriteLine();
+        Console.WriteLine("Libros ordenados por año:");
+        PrintBooks(libroService.OrdenarPorAnio());
+
         Pause();
     }
-
     // ==================== MÓDULO GUARDAR / CARGAR DATOS ====================
     static void ShowPersistenceMenu()
     {

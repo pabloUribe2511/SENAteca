@@ -349,30 +349,19 @@ class Program
 
     static void ListUsers()
     {
-        Usuario usuario1 = CreateSampleUser1();
-        Usuario usuario2 = CreateSampleUser2();
-
         Console.WriteLine("--- Listar usuarios ---");
-        Console.WriteLine(usuario1.ResumenCorto());
-        Console.WriteLine(usuario2.ResumenCorto());
+        PrintUsers(usuarioService.ObtenerTodos());
         Pause();
     }
 
     static void ViewUserDetail()
     {
         Console.WriteLine("--- Ver detalle de usuario ---");
-        string id = ReadText("Ingrese el ID del usuario (1 o 2): ");
+        int id = ReadOption("Ingrese el ID del usuario: ");
+        Usuario? usuario = usuarioService.BuscarPorId(id);
 
-        if (id == "1")
+        if (usuario != null)
         {
-            Usuario usuario = CreateSampleUser1();
-            Console.WriteLine(usuario.DetalleCompleto());
-            Console.WriteLine("¿Activo?: " + usuario.Activo);
-            Console.WriteLine("ToString(): " + usuario.ToString());
-        }
-        else if (id == "2")
-        {
-            Usuario usuario = CreateSampleUser2();
             Console.WriteLine(usuario.DetalleCompleto());
             Console.WriteLine("¿Activo?: " + usuario.Activo);
             Console.WriteLine("ToString(): " + usuario.ToString());
@@ -383,6 +372,7 @@ class Program
         }
         Pause();
     }
+
 
     // Stubs temporales (se completan en los siguientes commits)
        static void UpdateUserMenu()
@@ -447,10 +437,38 @@ class Program
     }
 
 
-    static void DeleteUser()
+   static void DeleteUser()
     {
         Console.WriteLine("--- Eliminar usuario ---");
-        Console.WriteLine("Validar no permitir si tiene préstamos activos.");
+        int id = ReadOption("Ingrese el ID del usuario a eliminar: ");
+        Usuario? usuario = usuarioService.BuscarPorId(id);
+
+        if (usuario == null)
+        {
+            Console.WriteLine("No se encontró un usuario con el ID: " + id);
+        }
+        else
+        {
+            // Regla: no se puede eliminar si tiene préstamos que no ha devuelto
+            bool tienePrestamosActivos = false;
+            foreach (Prestamo prestamo in prestamoService.ObtenerTodos())
+            {
+                if (prestamo.IdUsuario == usuario.Id && prestamo.Estado != EstadoPrestamo.Devuelto)
+                {
+                    tienePrestamosActivos = true;
+                }
+            }
+
+            if (tienePrestamosActivos)
+            {
+                Console.WriteLine("No se puede eliminar: el usuario tiene préstamos activos.");
+            }
+            else
+            {
+                usuarioService.EliminarUsuario(usuario);
+                Console.WriteLine("Usuario eliminado: " + usuario.Nombre);
+            }
+        }
         Pause();
     }
 
@@ -712,12 +730,27 @@ class Program
         Pause();
     }
 
-    static void SearchUser()
+       static void SearchUser()
     {
         Console.WriteLine("--- Buscar usuario ---");
-        Console.WriteLine("Se podrá buscar por: nombre o ID.");
-        string texto = ReadText("Ingrese el texto a buscar: ");
-        Console.WriteLine("Aquí se mostrarán los usuarios que coincidan con: " + texto);
+        string texto = ReadText("Ingrese documento o nombre a buscar: ");
+
+        Console.WriteLine();
+        Console.WriteLine("Resultado por documento:");
+        Usuario? porDocumento = usuarioService.BuscarPorDocumento(texto);
+        if (porDocumento != null)
+        {
+            Console.WriteLine(porDocumento.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay usuarios para mostrar.");
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Resultados por nombre:");
+        PrintUsers(usuarioService.BuscarPorNombre(texto));
+
         Pause();
     }
 
@@ -858,6 +891,10 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Libros ordenados por año:");
         PrintBooks(libroService.OrdenarPorAnio());
+
+        Console.WriteLine();
+        Console.WriteLine("Usuarios ordenados por nombre:");
+        PrintUsers(usuarioService.OrdenarPorNombre());
 
         Pause();
     }
@@ -1011,18 +1048,6 @@ class Program
 
     // ==================== OBJETOS DE PRUEBA ====================
 
-    static Usuario CreateSampleUser1()
-    {
-        return new Usuario(1, "Juan Pablo Uribe", "1001234567", "juan@correo.com");
-    }
-
-    static Usuario CreateSampleUser2()
-    {
-        Usuario usuario = new Usuario(2, "María Gómez", "1007654321", "maria@correo.com");
-        usuario.Activo = false;   // este usuario está inactivo
-        return usuario;
-    }
-
     static Prestamo CreateSampleLoan()
     {
         DateTime hoy = DateTime.Now;
@@ -1041,6 +1066,18 @@ class Program
         foreach (Libro libro in lista)
         {
             Console.WriteLine(libro.ResumenCorto());
+        }
+    }
+    static void PrintUsers(List<Usuario> lista)
+    {
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("No hay usuarios para mostrar.");
+        }
+
+        foreach (Usuario usuario in lista)
+        {
+            Console.WriteLine(usuario.ResumenCorto());
         }
     }
 

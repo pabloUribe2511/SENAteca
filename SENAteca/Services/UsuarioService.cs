@@ -14,4 +14,55 @@ public class UsuarioService
     {
         return usuarios;
     }
+        // Busca un usuario por su Id. Devuelve null si no existe
+    public Usuario? BuscarPorId(int id)
+    {
+        foreach (Usuario usuario in usuarios)
+        {
+            if (usuario.Id == id)
+            {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    // Elimina un usuario de la lista
+    public void EliminarUsuario(Usuario usuario)
+    {
+        usuarios.Remove(usuario);
+    }
+        // Busca un usuario por documento exacto
+    public Usuario? BuscarPorDocumento(string documento)
+    {
+        foreach (Usuario usuario in usuarios)
+        {
+            if (usuario.Documento == documento)
+            {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    // Busca usuarios cuyo nombre contenga el texto (sin importar mayúsculas)
+    public List<Usuario> BuscarPorNombre(string texto)
+    {
+        List<Usuario> resultado = new List<Usuario>();
+        foreach (Usuario usuario in usuarios)
+        {
+            if (usuario.Nombre.ToLower().Contains(texto.ToLower()))
+            {
+                resultado.Add(usuario);
+            }
+        }
+        return resultado;
+    }
+        // Devuelve una copia de la lista ordenada por nombre (A-Z)
+    public List<Usuario> OrdenarPorNombre()
+    {
+        List<Usuario> copia = new List<Usuario>(usuarios);
+        copia.Sort((a, b) => string.Compare(a.Nombre, b.Nombre));
+        return copia;
+    }
 }

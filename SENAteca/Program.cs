@@ -1,12 +1,19 @@
 ﻿using System;
 
 class Program
+
 {
+        // Instancias de los servicios (se crean una sola vez)
+    static LibroService libroService = new LibroService();
+    static UsuarioService usuarioService = new UsuarioService();
+    static PrestamoService prestamoService = new PrestamoService();
+
     static void Main(string[] args)
     {
         // Permite mostrar tildes y ñ correctamente en la consola
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+        LoadSampleData();
         ShowMainMenu();
     }
 
@@ -727,6 +734,8 @@ class Program
             Console.WriteLine("2. Reporte por libro");
             Console.WriteLine("3. Reporte de préstamos vencidos");
             Console.WriteLine("4. Resumen general");
+            Console.WriteLine("5. Comparación Array vs List");
+            Console.WriteLine("6. Listados ordenados");
             Console.WriteLine("0. Volver a búsquedas y reportes");
             Console.WriteLine("------------------------------------");
 
@@ -745,6 +754,12 @@ class Program
                     break;
                 case 4:
                     ReportSummary();
+                    break;
+                case 5:
+                    ShowArrayVsListDemo();
+                    break;
+                case 6:
+                    ShowSortedLists();
                     break;
                 case 0:
                     volver = true;
@@ -784,6 +799,56 @@ class Program
     {
         Console.WriteLine("--- Resumen general ---");
         Console.WriteLine("Aquí se mostrará el resumen: total de libros, usuarios y préstamos activos.");
+        Pause();
+    }
+        // Comparación entre un array y una List
+    static void ShowArrayVsListDemo()
+    {
+        Console.WriteLine("--- Comparación Array vs List ---");
+        Console.WriteLine();
+
+        // ARRAY: el tamaño se define al crearlo y no cambia
+        string[] titulosArray = new string[3];
+        titulosArray[0] = "Cien años de soledad";
+        titulosArray[1] = "El principito";
+        titulosArray[2] = "Rayuela";
+        // titulosArray[3] = "Don Quijote";   // ERROR: el array solo tiene 3 posiciones
+
+        Console.WriteLine("ARRAY (tamaño fijo = " + titulosArray.Length + "):");
+        for (int i = 0; i < titulosArray.Length; i++)
+        {
+            Console.WriteLine("  " + titulosArray[i]);
+        }
+
+        // LIST: el tamaño crece y se reduce solo
+        List<string> titulosList = new List<string>();
+        titulosList.Add("Cien años de soledad");
+        titulosList.Add("El principito");
+        titulosList.Add("Rayuela");
+        titulosList.Add("Don Quijote");        // se puede agregar sin problema
+        titulosList.Remove("El principito");   // y también eliminar
+
+        Console.WriteLine();
+        Console.WriteLine("LIST (tamaño dinámico, Count = " + titulosList.Count + "):");
+        foreach (string titulo in titulosList)
+        {
+            Console.WriteLine("  " + titulo);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("DIFERENCIAS:");
+        Console.WriteLine("- Array: tamaño fijo. Para agregar uno más hay que crear otro array y copiar todo.");
+        Console.WriteLine("- List: tamaño dinámico. Tiene Add, Remove, Sort, Contains, etc.");
+        Console.WriteLine("- Array se usa con .Length y List con .Count.");
+        Console.WriteLine("Por eso los servicios usan List<T>: los libros, usuarios y préstamos cambian todo el tiempo.");
+        Pause();
+    }
+
+    // Listados ordenados (se completa en las siguientes ramas)
+    static void ShowSortedLists()
+    {
+        Console.WriteLine("--- Listados ordenados ---");
+        Console.WriteLine("Aquí se mostrarán las listas ordenadas.");
         Pause();
     }
 
@@ -883,6 +948,58 @@ class Program
 
         Pause();
     }
+        // ==================== DATOS DE PRUEBA PARA LOS SERVICIOS ====================
+    static void LoadSampleData()
+    {
+        DateTime hoy = DateTime.Now;
+
+        // ----- Libros -----
+        Libro libro1 = new Libro(1, "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela");
+        libro1.Isbn = "978-0001";
+        Libro libro2 = new Libro(2, "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula");
+        libro2.Isbn = "978-0002";
+        libro2.Disponible = false;   // prestado
+        Libro libro3 = new Libro(3, "Don Quijote de la Mancha", "Miguel de Cervantes", 1605, "Novela");
+        libro3.Isbn = "978-0003";
+        Libro libro4 = new Libro(4, "Rayuela", "Julio Cortázar", 1963, "Novela");
+        libro4.Isbn = "978-0004";
+        libro4.Disponible = false;   // prestado
+        Libro libro5 = new Libro(5, "El amor en los tiempos del cólera", "Gabriel García Márquez", 1985, "Novela");
+        libro5.Isbn = "978-0005";
+
+        libroService.AgregarLibro(libro1);
+        libroService.AgregarLibro(libro2);
+        libroService.AgregarLibro(libro3);
+        libroService.AgregarLibro(libro4);
+        libroService.AgregarLibro(libro5);
+
+        // ----- Usuarios -----
+        Usuario usuario1 = new Usuario(1, "Juan Pablo Uribe", "1001234567", "juan@correo.com");
+        Usuario usuario2 = new Usuario(2, "María Gómez", "1007654321", "maria@correo.com");
+        usuario2.Activo = false;   // inactivo
+        Usuario usuario3 = new Usuario(3, "Carlos Pérez", "1009998887", "carlos@correo.com");
+
+        usuarioService.AgregarUsuario(usuario1);
+        usuarioService.AgregarUsuario(usuario2);
+        usuarioService.AgregarUsuario(usuario3);
+
+        // ----- Préstamos -----
+        // Activo: libro 2 al usuario 1, hace 5 días, límite en 2 días
+        Prestamo prestamo1 = new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
+
+        // Vencido: libro 4 al usuario 3, hace 20 días, el límite fue hace 6 días
+        Prestamo prestamo2 = new Prestamo(2, 4, 3, hoy.AddDays(-20), hoy.AddDays(-6));
+
+        // Devuelto: libro 1 al usuario 2, devuelto hace 20 días
+        Prestamo prestamo3 = new Prestamo(3, 1, 2, hoy.AddDays(-30), hoy.AddDays(-16));
+        prestamo3.Estado = EstadoPrestamo.Devuelto;
+        prestamo3.FechaDevolucion = hoy.AddDays(-20);
+
+        prestamoService.AgregarPrestamo(prestamo1);
+        prestamoService.AgregarPrestamo(prestamo2);
+        prestamoService.AgregarPrestamo(prestamo3);
+    }
+
     // ==================== OBJETOS DE PRUEBA ====================
     // Cada función devuelve un objeto de prueba (2 libros, 2 usuarios, 1 préstamo)
     static Libro CreateSampleBook1()

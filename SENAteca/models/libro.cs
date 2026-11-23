@@ -2,6 +2,7 @@ public class Libro
 {
     // Propiedades
     public int Id { get; set; }
+    public string Isbn { get; set; } = "";  
     public string Titulo { get; set; } = "";
     public string Autor { get; set; } = "";
     public int Anio { get; set; }
@@ -47,6 +48,7 @@ public class Libro
         }
 
         return "ID: " + Id + "\n" +
+                "ISBN: " + Isbn + "\n" +
                "Título: " + Titulo + "\n" +
                "Autor: " + Autor + "\n" +
                "Año: " + Anio + "\n" +

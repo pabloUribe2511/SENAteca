@@ -100,4 +100,20 @@ public class LibroService
         }
         return resultado;
     }
+        // Devuelve una COPIA de la lista ordenada por título (la original no cambia).
+    // (a, b) => ... le dice a Sort cómo comparar dos libros.
+    public List<Libro> OrdenarPorTitulo()
+    {
+        List<Libro> copia = new List<Libro>(libros);
+        copia.Sort((a, b) => string.Compare(a.Titulo, b.Titulo));
+        return copia;
+    }
+
+    // Devuelve una copia ordenada por año (de menor a mayor)
+    public List<Libro> OrdenarPorAnio()
+    {
+        List<Libro> copia = new List<Libro>(libros);
+        copia.Sort((a, b) => a.Anio.CompareTo(b.Anio));
+        return copia;
+    }
 }

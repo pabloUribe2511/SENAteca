@@ -126,21 +126,14 @@ class Program
         Pause();
     }
 
-     static void ViewBookDetail()
+    static void ViewBookDetail()
     {
         Console.WriteLine("--- Ver detalle de libro ---");
-        string id = ReadText("Ingrese el ID del libro (1 o 2): ");
+        int id = ReadOption("Ingrese el ID del libro: ");
+        Libro? libro = libroService.BuscarPorId(id);
 
-        if (id == "1")
+        if (libro != null)
         {
-            Libro libro = CreateSampleBook1();
-            Console.WriteLine(libro.DetalleCompleto());
-            Console.WriteLine("¿Disponible?: " + libro.Disponible);
-            Console.WriteLine("ToString(): " + libro.ToString());
-        }
-        else if (id == "2")
-        {
-            Libro libro = CreateSampleBook2();
             Console.WriteLine(libro.DetalleCompleto());
             Console.WriteLine("¿Disponible?: " + libro.Disponible);
             Console.WriteLine("ToString(): " + libro.ToString());
@@ -155,7 +148,22 @@ class Program
     static void DeleteBook()
     {
         Console.WriteLine("--- Eliminar libro ---");
-        Console.WriteLine("Validar no permitir si está prestado.");
+        int id = ReadOption("Ingrese el ID del libro a eliminar: ");
+        Libro? libro = libroService.BuscarPorId(id);
+
+        if (libro == null)
+        {
+            Console.WriteLine("No se encontró un libro con el ID: " + id);
+        }
+        else if (!libro.Disponible)
+        {
+            Console.WriteLine("No se puede eliminar: el libro está prestado.");
+        }
+        else
+        {
+            libroService.EliminarLibro(libro);
+            Console.WriteLine("Libro eliminado: " + libro.Titulo);
+        }
         Pause();
     }
 
@@ -200,52 +208,27 @@ class Program
         }
     }
 
-  static void ListBooksAll()
+    static void ListBooksAll()
     {
-        Libro libro1 = CreateSampleBook1();
-        Libro libro2 = CreateSampleBook2();
-
         Console.WriteLine("--- Listar todos los libros ---");
-        Console.WriteLine(libro1.ResumenCorto());
-        Console.WriteLine(libro2.ResumenCorto());
+        PrintBooks(libroService.ObtenerTodos());
         Pause();
     }
 
     static void ListBooksAvailable()
     {
-        Libro libro1 = CreateSampleBook1();
-        Libro libro2 = CreateSampleBook2();
-
         Console.WriteLine("--- Listar libros disponibles ---");
-
-        if (libro1.Disponible)
-        {
-            Console.WriteLine(libro1.ResumenCorto());
-        }
-        if (libro2.Disponible)
-        {
-            Console.WriteLine(libro2.ResumenCorto());
-        }
+        PrintBooks(libroService.ObtenerDisponibles());
         Pause();
     }
 
     static void ListBooksBorrowed()
     {
-        Libro libro1 = CreateSampleBook1();
-        Libro libro2 = CreateSampleBook2();
-
         Console.WriteLine("--- Listar libros prestados ---");
-
-        if (!libro1.Disponible)
-        {
-            Console.WriteLine(libro1.ResumenCorto());
-        }
-        if (!libro2.Disponible)
-        {
-            Console.WriteLine(libro2.ResumenCorto());
-        }
+        PrintBooks(libroService.ObtenerPrestados());
         Pause();
     }
+
     
       static void UpdateBookMenu()
     {
@@ -1001,18 +984,6 @@ class Program
     }
 
     // ==================== OBJETOS DE PRUEBA ====================
-    // Cada función devuelve un objeto de prueba (2 libros, 2 usuarios, 1 préstamo)
-    static Libro CreateSampleBook1()
-    {
-        return new Libro(1, "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela");
-    }
-
-    static Libro CreateSampleBook2()
-    {
-        Libro libro = new Libro(2, "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula");
-        libro.Disponible = false;   // este libro está prestado
-        return libro;
-    }
 
     static Usuario CreateSampleUser1()
     {
@@ -1031,6 +1002,20 @@ class Program
         DateTime hoy = DateTime.Now;
         // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
         return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
+    }
+    
+        // ==================== MOSTRAR LISTAS ====================
+    static void PrintBooks(List<Libro> lista)
+    {
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("No hay libros para mostrar.");
+        }
+
+        foreach (Libro libro in lista)
+        {
+            Console.WriteLine(libro.ResumenCorto());
+        }
     }
 
     // ==================== UTILIDADES ====================

@@ -734,6 +734,8 @@ class Program
             Console.WriteLine("2. Reporte por libro");
             Console.WriteLine("3. Reporte de préstamos vencidos");
             Console.WriteLine("4. Resumen general");
+            Console.WriteLine("5. Comparación Array vs List");
+            Console.WriteLine("6. Listados ordenados");
             Console.WriteLine("0. Volver a búsquedas y reportes");
             Console.WriteLine("------------------------------------");
 
@@ -752,6 +754,12 @@ class Program
                     break;
                 case 4:
                     ReportSummary();
+                    break;
+                case 5:
+                    ShowArrayVsListDemo();
+                    break;
+                case 6:
+                    ShowSortedLists();
                     break;
                 case 0:
                     volver = true;
@@ -791,6 +799,56 @@ class Program
     {
         Console.WriteLine("--- Resumen general ---");
         Console.WriteLine("Aquí se mostrará el resumen: total de libros, usuarios y préstamos activos.");
+        Pause();
+    }
+        // Comparación entre un array y una List
+    static void ShowArrayVsListDemo()
+    {
+        Console.WriteLine("--- Comparación Array vs List ---");
+        Console.WriteLine();
+
+        // ARRAY: el tamaño se define al crearlo y no cambia
+        string[] titulosArray = new string[3];
+        titulosArray[0] = "Cien años de soledad";
+        titulosArray[1] = "El principito";
+        titulosArray[2] = "Rayuela";
+        // titulosArray[3] = "Don Quijote";   // ERROR: el array solo tiene 3 posiciones
+
+        Console.WriteLine("ARRAY (tamaño fijo = " + titulosArray.Length + "):");
+        for (int i = 0; i < titulosArray.Length; i++)
+        {
+            Console.WriteLine("  " + titulosArray[i]);
+        }
+
+        // LIST: el tamaño crece y se reduce solo
+        List<string> titulosList = new List<string>();
+        titulosList.Add("Cien años de soledad");
+        titulosList.Add("El principito");
+        titulosList.Add("Rayuela");
+        titulosList.Add("Don Quijote");        // se puede agregar sin problema
+        titulosList.Remove("El principito");   // y también eliminar
+
+        Console.WriteLine();
+        Console.WriteLine("LIST (tamaño dinámico, Count = " + titulosList.Count + "):");
+        foreach (string titulo in titulosList)
+        {
+            Console.WriteLine("  " + titulo);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("DIFERENCIAS:");
+        Console.WriteLine("- Array: tamaño fijo. Para agregar uno más hay que crear otro array y copiar todo.");
+        Console.WriteLine("- List: tamaño dinámico. Tiene Add, Remove, Sort, Contains, etc.");
+        Console.WriteLine("- Array se usa con .Length y List con .Count.");
+        Console.WriteLine("Por eso los servicios usan List<T>: los libros, usuarios y préstamos cambian todo el tiempo.");
+        Pause();
+    }
+
+    // Listados ordenados (se completa en las siguientes ramas)
+    static void ShowSortedLists()
+    {
+        Console.WriteLine("--- Listados ordenados ---");
+        Console.WriteLine("Aquí se mostrarán las listas ordenadas.");
         Pause();
     }
 
@@ -941,7 +999,7 @@ class Program
         prestamoService.AgregarPrestamo(prestamo2);
         prestamoService.AgregarPrestamo(prestamo3);
     }
-    
+
     // ==================== OBJETOS DE PRUEBA ====================
     // Cada función devuelve un objeto de prueba (2 libros, 2 usuarios, 1 préstamo)
     static Libro CreateSampleBook1()

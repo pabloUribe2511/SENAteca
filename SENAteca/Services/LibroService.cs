@@ -60,4 +60,44 @@ public class LibroService
     {
         return libros;
     }
+        // Busca un libro por ISBN exacto
+    public Libro? BuscarPorIsbn(string isbn)
+    {
+        foreach (Libro libro in libros)
+        {
+            if (libro.Isbn == isbn)
+            {
+                return libro;
+            }
+        }
+        return null;
+    }
+
+    // Busca libros cuyo título contenga el texto (sin importar mayúsculas)
+    public List<Libro> BuscarPorTitulo(string texto)
+    {
+        List<Libro> resultado = new List<Libro>();
+        foreach (Libro libro in libros)
+        {
+            if (libro.Titulo.ToLower().Contains(texto.ToLower()))
+            {
+                resultado.Add(libro);
+            }
+        }
+        return resultado;
+    }
+
+    // Busca libros cuyo autor contenga el texto (sin importar mayúsculas)
+    public List<Libro> BuscarPorAutor(string texto)
+    {
+        List<Libro> resultado = new List<Libro>();
+        foreach (Libro libro in libros)
+        {
+            if (libro.Autor.ToLower().Contains(texto.ToLower()))
+            {
+                resultado.Add(libro);
+            }
+        }
+        return resultado;
+    }
 }

@@ -730,12 +730,27 @@ class Program
         Pause();
     }
 
-    static void SearchUser()
+       static void SearchUser()
     {
         Console.WriteLine("--- Buscar usuario ---");
-        Console.WriteLine("Se podrá buscar por: nombre o ID.");
-        string texto = ReadText("Ingrese el texto a buscar: ");
-        Console.WriteLine("Aquí se mostrarán los usuarios que coincidan con: " + texto);
+        string texto = ReadText("Ingrese documento o nombre a buscar: ");
+
+        Console.WriteLine();
+        Console.WriteLine("Resultado por documento:");
+        Usuario? porDocumento = usuarioService.BuscarPorDocumento(texto);
+        if (porDocumento != null)
+        {
+            Console.WriteLine(porDocumento.ResumenCorto());
+        }
+        else
+        {
+            Console.WriteLine("No hay usuarios para mostrar.");
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Resultados por nombre:");
+        PrintUsers(usuarioService.BuscarPorNombre(texto));
+
         Pause();
     }
 
@@ -876,6 +891,10 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Libros ordenados por año:");
         PrintBooks(libroService.OrdenarPorAnio());
+
+        Console.WriteLine();
+        Console.WriteLine("Usuarios ordenados por nombre:");
+        PrintUsers(usuarioService.OrdenarPorNombre());
 
         Pause();
     }

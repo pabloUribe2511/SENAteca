@@ -58,4 +58,11 @@ public class UsuarioService
         }
         return resultado;
     }
+        // Devuelve una copia de la lista ordenada por nombre (A-Z)
+    public List<Usuario> OrdenarPorNombre()
+    {
+        List<Usuario> copia = new List<Usuario>(usuarios);
+        copia.Sort((a, b) => string.Compare(a.Nombre, b.Nombre));
+        return copia;
+    }
 }

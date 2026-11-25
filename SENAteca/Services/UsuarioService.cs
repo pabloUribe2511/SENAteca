@@ -65,4 +65,28 @@ public class UsuarioService
         copia.Sort((a, b) => string.Compare(a.Nombre, b.Nombre));
         return copia;
     }
+
+    // ----- KPIs -----
+    public int TotalUsuarios()
+    {
+        return usuarios.Count;
+    }
+
+    public int TotalActivos()
+    {
+        int contador = 0;
+        foreach (Usuario usuario in usuarios)
+        {
+            if (usuario.Activo)
+            {
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    public int TotalInactivos()
+    {
+        return TotalUsuarios() - TotalActivos();
+    }
 }

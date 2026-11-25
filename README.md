@@ -26,6 +26,16 @@ Carpeta `Models/`:
 - `Prestamo.cs`
 - `EstadoPrestamo.cs` (enum: Activo, Devuelto, Vencido)
 
+## Capa Services (List<T>)
+
+Carpeta `Services/`:
+
+- `LibroService.cs` → `List<Libro>`
+- `UsuarioService.cs` → `List<Usuario>`
+- `PrestamoService.cs` → `List<Prestamo>`
+
+Cada servicio tiene: agregar, eliminar, buscar, ordenar y KPIs.
+
 ## Git Flow
 
 - `main`: versión estable.
@@ -47,6 +57,15 @@ Carpeta `Models/`:
 - feature/models-enum-estado-prestamo
 - feature/models-prestamo
 - feature/models-testing-objetos
+
+Ramas nuevas:
+
+- feature/services-setup
+- feature/libro-service
+- feature/usuario-service
+- feature/prestamo-service
+- feature/services-kpis
+bash
 
 ## Autor
 

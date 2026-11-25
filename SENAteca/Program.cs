@@ -844,8 +844,28 @@ class Program
 
     static void ReportSummary()
     {
-        Console.WriteLine("--- Resumen general ---");
-        Console.WriteLine("Aquí se mostrará el resumen: total de libros, usuarios y préstamos activos.");
+        Console.WriteLine("--- Resumen general (KPIs) ---");
+
+        Console.WriteLine();
+        Console.WriteLine("LIBROS");
+        Console.WriteLine("Total de libros: " + libroService.TotalLibros());
+        Console.WriteLine("Disponibles: " + libroService.TotalDisponibles());
+        Console.WriteLine("Prestados: " + libroService.TotalPrestados());
+
+        Console.WriteLine();
+        Console.WriteLine("USUARIOS");
+        Console.WriteLine("Total de usuarios: " + usuarioService.TotalUsuarios());
+        Console.WriteLine("Activos: " + usuarioService.TotalActivos());
+        Console.WriteLine("Inactivos: " + usuarioService.TotalInactivos());
+
+        Console.WriteLine();
+        Console.WriteLine("PRÉSTAMOS");
+        Console.WriteLine("Total de préstamos: " + prestamoService.TotalPrestamos());
+        Console.WriteLine("Activos: " + prestamoService.TotalActivos());
+        Console.WriteLine("Vencidos: " + prestamoService.TotalVencidos());
+        Console.WriteLine("Devueltos: " + prestamoService.TotalDevueltos());
+        Console.WriteLine("Promedio de días de préstamo: " + prestamoService.PromedioDiasPrestamo().ToString("F1"));
+
         Pause();
     }
         // Comparación entre un array y una List

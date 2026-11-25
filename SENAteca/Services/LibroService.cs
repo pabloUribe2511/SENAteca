@@ -116,4 +116,20 @@ public class LibroService
         copia.Sort((a, b) => a.Anio.CompareTo(b.Anio));
         return copia;
     }
+
+    // ----- KPIs -----
+    public int TotalLibros()
+    {
+        return libros.Count;
+    }
+
+    public int TotalDisponibles()
+    {
+        return ObtenerDisponibles().Count;
+    }
+
+    public int TotalPrestados()
+    {
+        return ObtenerPrestados().Count;
+    }
 }

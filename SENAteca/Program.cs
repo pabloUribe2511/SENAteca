@@ -580,55 +580,33 @@ class Program
 
     static void ListLoansAll()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar todos los préstamos ---");
-        Console.WriteLine(prestamo.ResumenCorto());
+        PrintLoans(prestamoService.ObtenerTodos());
         Pause();
     }
 
     static void ListLoansActive()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar préstamos activos ---");
-
-        if (prestamo.Estado == EstadoPrestamo.Activo)
-        {
-            Console.WriteLine(prestamo.ResumenCorto());
-        }
-        else
-        {
-            Console.WriteLine("No hay préstamos activos.");
-        }
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Activo));
         Pause();
     }
 
-     static void ListLoansClosed()
+    static void ListLoansClosed()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar préstamos cerrados ---");
-
-        if (prestamo.Estado == EstadoPrestamo.Devuelto)
-        {
-            Console.WriteLine(prestamo.ResumenCorto());
-        }
-        else
-        {
-            Console.WriteLine("No hay préstamos cerrados.");
-        }
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Devuelto));
         Pause();
     }
 
     static void ViewLoanDetail()
     {
         Console.WriteLine("--- Ver detalle de préstamo ---");
-        string id = ReadText("Ingrese el ID del préstamo (1): ");
+        int id = ReadOption("Ingrese el ID del préstamo: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
 
-        if (id == "1")
+        if (prestamo != null)
         {
-            Prestamo prestamo = CreateSampleLoan();
             Console.WriteLine(prestamo.DetalleCompleto());
             Console.WriteLine();
             Console.WriteLine("Estado: " + prestamo.Estado);
@@ -1044,15 +1022,8 @@ class Program
         prestamoService.AgregarPrestamo(prestamo1);
         prestamoService.AgregarPrestamo(prestamo2);
         prestamoService.AgregarPrestamo(prestamo3);
-    }
-
-    // ==================== OBJETOS DE PRUEBA ====================
-
-    static Prestamo CreateSampleLoan()
-    {
-        DateTime hoy = DateTime.Now;
-        // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
-        return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
+        // Marca como Vencido los préstamos que ya pasaron su fecha límite
+        prestamoService.ActualizarEstados();
     }
     
         // ==================== MOSTRAR LISTAS ====================
@@ -1078,6 +1049,19 @@ class Program
         foreach (Usuario usuario in lista)
         {
             Console.WriteLine(usuario.ResumenCorto());
+        }
+    }
+
+    static void PrintLoans(List<Prestamo> lista)
+    {
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("No hay préstamos para mostrar.");
+        }
+
+        foreach (Prestamo prestamo in lista)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
         }
     }
 

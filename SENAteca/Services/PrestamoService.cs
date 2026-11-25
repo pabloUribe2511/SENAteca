@@ -64,4 +64,42 @@ public class PrestamoService
         copia.Sort((a, b) => a.FechaLimite.CompareTo(b.FechaLimite));
         return copia;
     }
+
+    // ----- KPIs -----
+    public int TotalPrestamos()
+    {
+        return prestamos.Count;
+    }
+
+    public int TotalActivos()
+    {
+        return BuscarPorEstado(EstadoPrestamo.Activo).Count;
+    }
+
+    public int TotalVencidos()
+    {
+        return BuscarPorEstado(EstadoPrestamo.Vencido).Count;
+    }
+
+    public int TotalDevueltos()
+    {
+        return BuscarPorEstado(EstadoPrestamo.Devuelto).Count;
+    }
+
+    // Promedio de días de todos los préstamos
+    public double PromedioDiasPrestamo()
+    {
+        if (prestamos.Count == 0)
+        {
+            return 0;
+        }
+
+        int suma = 0;
+        foreach (Prestamo prestamo in prestamos)
+        {
+            suma += prestamo.DiasTranscurridos();
+        }
+
+        return (double)suma / prestamos.Count;
+    }
 }

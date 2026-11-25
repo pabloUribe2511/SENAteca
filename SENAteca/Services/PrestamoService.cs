@@ -14,4 +14,54 @@ public class PrestamoService
     {
         return prestamos;
     }
+        // Busca un préstamo por su Id. Devuelve null si no existe
+    public Prestamo? BuscarPorId(int id)
+    {
+        foreach (Prestamo prestamo in prestamos)
+        {
+            if (prestamo.Id == id)
+            {
+                return prestamo;
+            }
+        }
+        return null;
+    }
+
+    // Elimina un préstamo de la lista
+    public void EliminarPrestamo(Prestamo prestamo)
+    {
+        prestamos.Remove(prestamo);
+    }
+
+    // Marca como Vencido los préstamos activos cuya fecha límite ya pasó
+    public void ActualizarEstados()
+    {
+        foreach (Prestamo prestamo in prestamos)
+        {
+            if (prestamo.Estado == EstadoPrestamo.Activo && prestamo.EstaVencido())
+            {
+                prestamo.Estado = EstadoPrestamo.Vencido;
+            }
+        }
+    }
+        // Devuelve los préstamos que tengan el estado indicado
+    public List<Prestamo> BuscarPorEstado(EstadoPrestamo estado)
+    {
+        List<Prestamo> resultado = new List<Prestamo>();
+        foreach (Prestamo prestamo in prestamos)
+        {
+            if (prestamo.Estado == estado)
+            {
+                resultado.Add(prestamo);
+            }
+        }
+        return resultado;
+    }
+        // Devuelve una copia ordenada por fecha límite (la más próxima primero)
+    public List<Prestamo> OrdenarPorFechaLimite()
+    {
+        List<Prestamo> copia = new List<Prestamo>(prestamos);
+        copia.Sort((a, b) => a.FechaLimite.CompareTo(b.FechaLimite));
+        return copia;
+    }
 }

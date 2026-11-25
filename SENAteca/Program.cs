@@ -580,55 +580,33 @@ class Program
 
     static void ListLoansAll()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar todos los préstamos ---");
-        Console.WriteLine(prestamo.ResumenCorto());
+        PrintLoans(prestamoService.ObtenerTodos());
         Pause();
     }
 
     static void ListLoansActive()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar préstamos activos ---");
-
-        if (prestamo.Estado == EstadoPrestamo.Activo)
-        {
-            Console.WriteLine(prestamo.ResumenCorto());
-        }
-        else
-        {
-            Console.WriteLine("No hay préstamos activos.");
-        }
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Activo));
         Pause();
     }
 
-     static void ListLoansClosed()
+    static void ListLoansClosed()
     {
-        Prestamo prestamo = CreateSampleLoan();
-
         Console.WriteLine("--- Listar préstamos cerrados ---");
-
-        if (prestamo.Estado == EstadoPrestamo.Devuelto)
-        {
-            Console.WriteLine(prestamo.ResumenCorto());
-        }
-        else
-        {
-            Console.WriteLine("No hay préstamos cerrados.");
-        }
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Devuelto));
         Pause();
     }
 
     static void ViewLoanDetail()
     {
         Console.WriteLine("--- Ver detalle de préstamo ---");
-        string id = ReadText("Ingrese el ID del préstamo (1): ");
+        int id = ReadOption("Ingrese el ID del préstamo: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
 
-        if (id == "1")
+        if (prestamo != null)
         {
-            Prestamo prestamo = CreateSampleLoan();
             Console.WriteLine(prestamo.DetalleCompleto());
             Console.WriteLine();
             Console.WriteLine("Estado: " + prestamo.Estado);
@@ -646,19 +624,53 @@ class Program
     static void RegisterReturn()
     {
         Console.WriteLine("--- Registrar devolución ---");
-        string id = ReadText("Ingrese el ID del préstamo: ");
-        Console.WriteLine("Aquí se marcará el préstamo " + id + " como devuelto.");
-        Console.WriteLine("Además, el libro volverá a estar disponible.");
+        int id = ReadOption("Ingrese el ID del préstamo: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
+
+        if (prestamo == null)
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
+        else if (prestamo.Estado == EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine("Ese préstamo ya fue devuelto.");
+        }
+        else
+        {
+            prestamo.Estado = EstadoPrestamo.Devuelto;
+            prestamo.FechaDevolucion = DateTime.Now;
+
+            // El libro vuelve a estar disponible
+            Libro? libro = libroService.BuscarPorId(prestamo.IdLibro);
+            if (libro != null)
+            {
+                libro.Disponible = true;
+            }
+
+            Console.WriteLine("Préstamo " + id + " marcado como devuelto. El libro quedó disponible.");
+        }
         Pause();
     }
 
     static void DeleteLoan()
     {
         Console.WriteLine("--- Eliminar préstamo ---");
-        Console.WriteLine("Reglas sugeridas:");
-        Console.WriteLine("- No permitir eliminar un préstamo que siga activo.");
-        Console.WriteLine("- Solo se pueden eliminar préstamos cerrados (ya devueltos).");
-        Console.WriteLine("- Pedir confirmación antes de eliminar.");
+        int id = ReadOption("Ingrese el ID del préstamo a eliminar: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
+
+        if (prestamo == null)
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
+        else if (prestamo.Estado != EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine("No se puede eliminar: solo se eliminan préstamos ya devueltos.");
+        }
+        else
+        {
+            prestamoService.EliminarPrestamo(prestamo);
+            Console.WriteLine("Préstamo eliminado.");
+        }
         Pause();
     }
       // ==================== MÓDULO BÚSQUEDAS Y REPORTES ====================
@@ -826,7 +838,7 @@ class Program
     static void ReportOverdue()
     {
         Console.WriteLine("--- Reporte de préstamos vencidos ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos cuya fecha de devolución ya pasó.");
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Vencido));
         Pause();
     }
 
@@ -896,6 +908,10 @@ class Program
         Console.WriteLine("Usuarios ordenados por nombre:");
         PrintUsers(usuarioService.OrdenarPorNombre());
 
+        Console.WriteLine();
+        Console.WriteLine("Préstamos ordenados por fecha límite:");
+        PrintLoans(prestamoService.OrdenarPorFechaLimite());
+        
         Pause();
     }
     // ==================== MÓDULO GUARDAR / CARGAR DATOS ====================
@@ -1044,15 +1060,8 @@ class Program
         prestamoService.AgregarPrestamo(prestamo1);
         prestamoService.AgregarPrestamo(prestamo2);
         prestamoService.AgregarPrestamo(prestamo3);
-    }
-
-    // ==================== OBJETOS DE PRUEBA ====================
-
-    static Prestamo CreateSampleLoan()
-    {
-        DateTime hoy = DateTime.Now;
-        // Préstamo del libro 2 al usuario 1: hace 5 días, con límite en 2 días
-        return new Prestamo(1, 2, 1, hoy.AddDays(-5), hoy.AddDays(2));
+        // Marca como Vencido los préstamos que ya pasaron su fecha límite
+        prestamoService.ActualizarEstados();
     }
     
         // ==================== MOSTRAR LISTAS ====================
@@ -1078,6 +1087,19 @@ class Program
         foreach (Usuario usuario in lista)
         {
             Console.WriteLine(usuario.ResumenCorto());
+        }
+    }
+
+    static void PrintLoans(List<Prestamo> lista)
+    {
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("No hay préstamos para mostrar.");
+        }
+
+        foreach (Prestamo prestamo in lista)
+        {
+            Console.WriteLine(prestamo.ResumenCorto());
         }
     }
 

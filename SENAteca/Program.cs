@@ -624,19 +624,53 @@ class Program
     static void RegisterReturn()
     {
         Console.WriteLine("--- Registrar devolución ---");
-        string id = ReadText("Ingrese el ID del préstamo: ");
-        Console.WriteLine("Aquí se marcará el préstamo " + id + " como devuelto.");
-        Console.WriteLine("Además, el libro volverá a estar disponible.");
+        int id = ReadOption("Ingrese el ID del préstamo: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
+
+        if (prestamo == null)
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
+        else if (prestamo.Estado == EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine("Ese préstamo ya fue devuelto.");
+        }
+        else
+        {
+            prestamo.Estado = EstadoPrestamo.Devuelto;
+            prestamo.FechaDevolucion = DateTime.Now;
+
+            // El libro vuelve a estar disponible
+            Libro? libro = libroService.BuscarPorId(prestamo.IdLibro);
+            if (libro != null)
+            {
+                libro.Disponible = true;
+            }
+
+            Console.WriteLine("Préstamo " + id + " marcado como devuelto. El libro quedó disponible.");
+        }
         Pause();
     }
 
     static void DeleteLoan()
     {
         Console.WriteLine("--- Eliminar préstamo ---");
-        Console.WriteLine("Reglas sugeridas:");
-        Console.WriteLine("- No permitir eliminar un préstamo que siga activo.");
-        Console.WriteLine("- Solo se pueden eliminar préstamos cerrados (ya devueltos).");
-        Console.WriteLine("- Pedir confirmación antes de eliminar.");
+        int id = ReadOption("Ingrese el ID del préstamo a eliminar: ");
+        Prestamo? prestamo = prestamoService.BuscarPorId(id);
+
+        if (prestamo == null)
+        {
+            Console.WriteLine("No se encontró un préstamo con el ID: " + id);
+        }
+        else if (prestamo.Estado != EstadoPrestamo.Devuelto)
+        {
+            Console.WriteLine("No se puede eliminar: solo se eliminan préstamos ya devueltos.");
+        }
+        else
+        {
+            prestamoService.EliminarPrestamo(prestamo);
+            Console.WriteLine("Préstamo eliminado.");
+        }
         Pause();
     }
       // ==================== MÓDULO BÚSQUEDAS Y REPORTES ====================
@@ -804,7 +838,7 @@ class Program
     static void ReportOverdue()
     {
         Console.WriteLine("--- Reporte de préstamos vencidos ---");
-        Console.WriteLine("Aquí se mostrarán los préstamos cuya fecha de devolución ya pasó.");
+        PrintLoans(prestamoService.BuscarPorEstado(EstadoPrestamo.Vencido));
         Pause();
     }
 
@@ -874,6 +908,10 @@ class Program
         Console.WriteLine("Usuarios ordenados por nombre:");
         PrintUsers(usuarioService.OrdenarPorNombre());
 
+        Console.WriteLine();
+        Console.WriteLine("Préstamos ordenados por fecha límite:");
+        PrintLoans(prestamoService.OrdenarPorFechaLimite());
+        
         Pause();
     }
     // ==================== MÓDULO GUARDAR / CARGAR DATOS ====================

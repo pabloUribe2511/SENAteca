@@ -1129,7 +1129,7 @@ class Program
     static int ReadOption(string mensaje)
     {
         Console.Write(mensaje);
-        string entrada = Console.ReadLine();
+        string entrada = Console.ReadLine() ?? "";
 
         int opcion;
         if (int.TryParse(entrada, out opcion))
